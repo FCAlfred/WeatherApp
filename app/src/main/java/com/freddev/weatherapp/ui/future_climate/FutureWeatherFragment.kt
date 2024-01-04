@@ -1,4 +1,4 @@
-package com.freddev.weatherapp.ui.dashboard
+package com.freddev.weatherapp.ui.future_climate
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,14 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.freddev.weatherapp.databinding.FragmentDashboardBinding
+import com.freddev.weatherapp.databinding.FragmentFutureWeatherBinding
 
-class DashboardFragment : Fragment() {
+class FutureWeatherFragment : Fragment() {
 
-    private var _binding: FragmentDashboardBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private var _binding: FragmentFutureWeatherBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -23,9 +20,9 @@ class DashboardFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
+            ViewModelProvider(this)[FutureWeatherViewModel::class.java]
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentFutureWeatherBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textDashboard
