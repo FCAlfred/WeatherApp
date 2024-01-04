@@ -26,6 +26,6 @@
     <fragment
         android:id="@+id/futureWeatherDetailsFragment"
         android:name="com.freddev.weatherapp.ui.future_climate.FutureWeatherDetailsFragment"
-        android:label="fragment_future_weather_details"
+        android:label="@string/title_details"
         tools:layout="@layout/fragment_future_weather_details" />
 </navigation>

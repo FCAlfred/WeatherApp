@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment_activity_main)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+                R.id.current_weather, R.id.future_weather, R.id.settings
             )
         )
         setSupportActionBar(toolbar)
