@@ -4,7 +4,7 @@ WeatherApp is a gorgeous client application for [WeatherMap](https://home.openwe
 ## Architecture and Tech-stack
 
 * Built on MVVM architecture pattern
-* Uses [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/), specifically Fragments, ViewModel, LiveData, viewBinding, Paging, viewPager2, RecyclerViews and Tabs.
+* Uses [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/), specifically Fragments, ViewModel, LiveData, viewBinding, Navigation and Tabs.
 * Uses [Retrofit](https://square.github.io/retrofit/) for making API calls.
 * Uses [Glide](https://github.com/bumptech/glide) for image loading.
 * Uses [ROOM](https://github.com/androidx-releases/Room/releases) for local storage.
