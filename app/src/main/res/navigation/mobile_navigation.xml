@@ -9,7 +9,11 @@
         android:id="@+id/current_weather"
         android:name="com.freddev.weatherapp.ui.weather.CurrentWeatherFragment"
         android:label="@string/title_today"
-        tools:layout="@layout/fragment_current_weather" />
+        tools:layout="@layout/fragment_current_weather" >
+        <action
+            android:id="@+id/action_current_weather_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/future_weather"
@@ -28,4 +32,14 @@
         android:name="com.freddev.weatherapp.ui.future_climate.FutureWeatherDetailsFragment"
         android:label="@string/title_details"
         tools:layout="@layout/fragment_future_weather_details" />
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.freddev.weatherapp.ui.weather.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" >
+        <argument
+            android:name="city"
+            app:argType="string"
+            android:defaultValue="New York" />
+    </fragment>
 </navigation>

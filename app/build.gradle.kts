@@ -2,6 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -77,7 +78,7 @@ dependencies {
     implementation("com.jakewharton.threetenabp:threetenabp:1.1.0")
 
     // GLide
-    implementation("com.github.bumptech.glide:glide:4.12.0")
+    implementation("com.github.bumptech.glide:glide:4.13.0")
 
     // Groupie RecycLerView
     implementation("com.github.lisawray.groupie:groupie:2.10.1")
@@ -92,6 +93,10 @@ dependencies {
 
     // New Material Design
     implementation("com.google.android.material:material:1.11.0")
+
+    //Maps
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation ("com.google.android.gms:play-services-location:21.0.1")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

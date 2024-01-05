@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class FutureWeatherViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is future climate"
+        value = "To Be Implemented"
     }
     val text: LiveData<String> = _text
 }
