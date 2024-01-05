@@ -80,14 +80,6 @@ dependencies {
     // GLide
     implementation("com.github.bumptech.glide:glide:4.13.0")
 
-    // Groupie RecycLerView
-    implementation("com.github.lisawray.groupie:groupie:2.10.1")
-    implementation ("com.github.lisawray.groupie:groupie:2.10.1")
-    implementation ("com.github.lisawray.groupie:groupie-viewbinding:2.10.1")
-
-    // Preference
-    implementation("androidx.preference:preference-ktx:1.2.1")
-
     // Location
     implementation("com.google.android.gms:play-services-location:21.0.1")
 
