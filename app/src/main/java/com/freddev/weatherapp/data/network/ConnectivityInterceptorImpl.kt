@@ -3,7 +3,7 @@ package com.freddev.weatherapp.data.network
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.freddev.weatherapp.internal.NoConnectivityExceptions
+import com.freddev.weatherapp.utils.NoConnectivityExceptions
 import okhttp3.Interceptor
 import okhttp3.Response
 

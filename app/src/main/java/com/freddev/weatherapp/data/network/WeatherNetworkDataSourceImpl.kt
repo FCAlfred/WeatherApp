@@ -3,9 +3,8 @@ package com.freddev.weatherapp.data.network
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.freddev.weatherapp.data.WeatherApiService
 import com.freddev.weatherapp.data.network.response.CurrentWeatherResponse
-import com.freddev.weatherapp.internal.NoConnectivityExceptions
+import com.freddev.weatherapp.utils.NoConnectivityExceptions
 
 class WeatherNetworkDataSourceImpl(
     private val weatherApiService: WeatherApiService
@@ -21,8 +20,7 @@ class WeatherNetworkDataSourceImpl(
                 .getCurrentWeatherAsync(location)
                 .await()
             _downloadedCurrentWeather.postValue(fetchedCurrentWeather)
-        }
-        catch (e: NoConnectivityExceptions){
+        } catch (e: NoConnectivityExceptions) {
             Log.e("Connectivity", "No internet connection. ", e)
         }
     }

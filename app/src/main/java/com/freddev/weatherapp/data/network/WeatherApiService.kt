@@ -1,8 +1,5 @@
-package com.freddev.weatherapp.data
+package com.freddev.weatherapp.data.network
 
-import android.content.Context
-import com.freddev.weatherapp.data.network.ConnectivityInterceptor
-import com.freddev.weatherapp.data.network.ConnectivityInterceptorImpl
 import com.freddev.weatherapp.data.network.response.CurrentWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred

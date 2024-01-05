@@ -10,12 +10,12 @@ import com.freddev.weatherapp.data.db.entity.CurrentWeatherEntry
     entities = [CurrentWeatherEntry::class],
     version = 1
 )
-abstract class ForecastDatabase : RoomDatabase() {
+abstract class WeatherDatabase : RoomDatabase() {
     abstract fun currentWeatherDao(): CurrentWeatherDao
 
     companion object {
         @Volatile
-        private var instance: ForecastDatabase? = null
+        private var instance: WeatherDatabase? = null
         private val LOCK = Any()
 
         operator fun invoke(context: Context) = instance ?: synchronized(LOCK) {
@@ -25,8 +25,8 @@ abstract class ForecastDatabase : RoomDatabase() {
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(
                 context.applicationContext,
-                ForecastDatabase::class.java,
-                "forecast.db"
+                WeatherDatabase::class.java,
+                "weather.db"
             ).build()
     }
 }

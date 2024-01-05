@@ -1,4 +1,4 @@
-package com.freddev.weatherapp.internal
+package com.freddev.weatherapp.utils
 
 import java.io.IOException
 
