@@ -1,6 +1,9 @@
 package com.freddev.weatherapp.data
 
-import com.freddev.weatherapp.data.response.CurrentWeatherResponse
+import android.content.Context
+import com.freddev.weatherapp.data.network.ConnectivityInterceptor
+import com.freddev.weatherapp.data.network.ConnectivityInterceptorImpl
+import com.freddev.weatherapp.data.network.response.CurrentWeatherResponse
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
 import okhttp3.Interceptor
@@ -21,7 +24,9 @@ interface WeatherApiService {
     ): Deferred<CurrentWeatherResponse>
 
     companion object {
-        operator fun invoke(): WeatherApiService {
+        operator fun invoke(
+            connectivityInterceptor: ConnectivityInterceptor
+        ): WeatherApiService {
             val requestInterceptor = Interceptor { chain ->
                 val url = chain.request()
                     .url()
@@ -36,6 +41,7 @@ interface WeatherApiService {
             }
             val okHttpClient = OkHttpClient.Builder()
                 .addInterceptor(requestInterceptor)
+                .addInterceptor(connectivityInterceptor)
                 .build()
 
             return Retrofit.Builder()

@@ -1,4 +1,4 @@
-package com.freddev.weatherapp.data.response
+package com.freddev.weatherapp.data.db.entity
 
 
 import com.google.gson.annotations.SerializedName

@@ -1,0 +1,26 @@
+package com.freddev.weatherapp.data.db.unitlocalized
+
+import androidx.room.ColumnInfo
+import com.freddev.weatherapp.utils.celciusToFarenheit
+
+data class ImperialCurrentWeatherEntry(
+    @ColumnInfo(name = "temperature")
+    override val temperature: Double,
+/*    @ColumnInfo(name = "weatherDescriptions")
+    override val weatherDescriptions: List<String>,
+    @ColumnInfo(name = "weatherIcons")
+    override val iconUrl: List<String>,*/
+    @ColumnInfo(name = "windSpeed")
+    override val windSpeed: Double,
+    @ColumnInfo(name = "windDir")
+    override val windDirection: String,
+    @ColumnInfo(name = "precip")
+    override val precipitationVolume: Double,
+    @ColumnInfo(name = "feelslike")
+    override val feelsLikeTemperature: Double,
+    @ColumnInfo(name = "visibility")
+    override val visibilityDistance: Double
+):UnitSpecificCurrentWeatherEntry {
+    val temperatureInFarenheit: Double = celciusToFarenheit(temperature)
+    val feelsLikeInFarenheit: Double = celciusToFarenheit(feelsLikeTemperature)
+}
