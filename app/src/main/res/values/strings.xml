@@ -9,4 +9,7 @@
     <string name="TYPE_CITY">TYPE A CITY</string>
     <string name="info_preview">Stay prepared for any weather with accurate forecasts and graphical visualizations that provide you with the information you need to plan your day.</string>
     <string name="content_description">TODO</string>
+    <string name="morelia_city">Morelia</string>
+    <string name="search_button">Search</string>
+
 </resources>
