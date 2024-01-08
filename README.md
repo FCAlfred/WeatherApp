@@ -10,5 +10,6 @@ WeatherApp is a gorgeous client application for [WeatherMap](https://home.openwe
 * Uses [ROOM](https://github.com/androidx-releases/Room/releases) for local storage.
 * Uses [Google Map API](https://cloud.google.com/apis?gad_source=1&hl=es) for maps.
 * Uses [Coroutines](https://developer.android.com/kotlin/coroutines?hl=es-419) for hadler flows.
-* Uses [Gson](https://github.com/google/gson) for serialization/deserealization .
+* Uses [Gson](https://github.com/google/gson) for serialization/deserealization.
+* Uses  [Espresso](https://developer.android.com/training/testing/espresso?hl=es-419) for testing.
 * Main Content was Built on a Single-Activity Architecture. Every screen in the app is a fragment.
