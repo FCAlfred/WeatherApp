@@ -48,10 +48,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
         val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(weatherApiService)
 
-        val viewModelFactory = CurrentWeatherViewModelFactory(weatherNetworkDataSource, args.city)
+        val viewModelFactory =
+            CurrentWeatherViewModelFactory(weatherNetworkDataSource, args.city, requireContext())
         viewModel = ViewModelProvider(this, viewModelFactory)[CurrentWeatherViewModel::class.java]
-
-        setWeatherInfo()
+        validateConnection()
         return binding.root
     }
 
@@ -83,8 +83,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
         Log.i("setWeatherInfo", "Dentro de setWeatherInfo")
         viewModel.currentWeather.observe(viewLifecycleOwner) { weatherResponse ->
             Log.i("DataInfo: ", weatherResponse.toString())
-            Toast.makeText(requireContext(), "DATA INFO: $weatherResponse", Toast.LENGTH_SHORT)
-                .show()
             binding.apply {
                 textViewLocalTime.text = "Local Time: \n${weatherResponse.location.localtime}"
                 textViewCity.text = "Location: \n${weatherResponse.request.query}"
@@ -100,6 +98,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
                         .load(iconUrl)
                         .into(climateIcon)
                 }
+            }
+        }
+    }
+
+    private fun validateConnection() {
+        viewModel.isConnected.observeForever {
+            if (!it) {
+                Toast.makeText(requireContext(), "No Internet Connection", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                setWeatherInfo()
             }
         }
     }

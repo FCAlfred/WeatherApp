@@ -1,5 +1,9 @@
 package com.freddev.weatherapp.ui.weather
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
@@ -11,7 +15,8 @@ import kotlinx.coroutines.launch
 
 class CurrentWeatherViewModel(
     private val weatherNetworkDataSource: WeatherNetworkDataSource,
-    private val city: String
+    private val city: String,
+    private val context: Context
 ) : ViewModel() {
 
     private val _currentWeather = MutableLiveData<CurrentWeatherResponse>()
@@ -25,13 +30,47 @@ class CurrentWeatherViewModel(
             }
         }
 
+    private val _isConnected = MutableLiveData<Boolean>()
+    val isConnected: LiveData<Boolean>
+        get() = _isConnected
+
+
     init {
-        viewModelScope.launch {
-            weatherNetworkDataSource.fetchCurrentWeather(city)
+        checkNetworkConnectivity()
+    }
+
+    private fun checkNetworkConnectivity() {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val network = connectivityManager.activeNetwork
+            val capabilities = connectivityManager.getNetworkCapabilities(network)
+            val isConnected = capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+            _isConnected.postValue(isConnected)
+
+            if (isConnected) {
+                viewModelScope.launch {
+                    weatherNetworkDataSource.fetchCurrentWeather(city)
+                }
+                weatherNetworkDataSource.downloadedCurrentWeather.observeForever(
+                    downloadedCurrentWeatherObserver
+                )
+            }
+        } else {
+            val networkInfo = connectivityManager.activeNetworkInfo
+            val isConnected = networkInfo?.isConnected == true
+            _isConnected.postValue(isConnected)
+
+            if (isConnected) {
+                viewModelScope.launch {
+                    weatherNetworkDataSource.fetchCurrentWeather(city)
+                }
+                weatherNetworkDataSource.downloadedCurrentWeather.observeForever(
+                    downloadedCurrentWeatherObserver
+                )
+            }
         }
-        weatherNetworkDataSource.downloadedCurrentWeather.observeForever(
-            downloadedCurrentWeatherObserver
-        )
     }
 
     override fun onCleared() {
