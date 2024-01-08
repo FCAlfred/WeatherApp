@@ -7,6 +7,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.freddev.weatherapp.data.WeatherApiService
@@ -18,17 +20,15 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.io.IOException
 
 class MapsFragment : Fragment(), OnMapReadyCallback {
 
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
-    private lateinit var googleMap: GoogleMap
     private val args: MapsFragmentArgs by navArgs()
+    private lateinit var googleMap: GoogleMap
+    private lateinit var viewModel: CurrentWeatherViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +41,16 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
             onResume()
             getMapAsync(this@MapsFragment)
         }
+        val connectivityInterceptor =
+            ConnectivityInterceptorImpl(requireContext())
+
+        val weatherApiService = WeatherApiService.invoke(connectivityInterceptor)
+
+        val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(weatherApiService)
+
+        val viewModelFactory = CurrentWeatherViewModelFactory(weatherNetworkDataSource, args.city)
+        viewModel = ViewModelProvider(this, viewModelFactory)[CurrentWeatherViewModel::class.java]
+
         setWeatherInfo()
         return binding.root
     }
@@ -70,34 +80,27 @@ class MapsFragment : Fragment(), OnMapReadyCallback {
 
 
     private fun setWeatherInfo() {
-        val apiService = WeatherApiService(ConnectivityInterceptorImpl(binding.root.context))
-        val weatherNetworkDataSource = WeatherNetworkDataSourceImpl(apiService)
+        Log.i("setWeatherInfo", "Dentro de setWeatherInfo")
+        viewModel.currentWeather.observe(viewLifecycleOwner) { weatherResponse ->
+            Log.i("DataInfo: ", weatherResponse.toString())
+            Toast.makeText(requireContext(), "DATA INFO: $weatherResponse", Toast.LENGTH_SHORT)
+                .show()
+            binding.apply {
+                textViewLocalTime.text = "Local Time: \n${weatherResponse.location.localtime}"
+                textViewCity.text = "Location: \n${weatherResponse.request.query}"
+                textObservation.text =
+                    "Observation Time: \n${weatherResponse.currentWeatherEntry.observationTime}"
+                textFeelsLike.text =
+                    "Feels Like: \n${weatherResponse.currentWeatherEntry.feelslike}° C"
 
-        weatherNetworkDataSource.downloadedCurrentWeather.observe(viewLifecycleOwner) { currentWeatherResponse ->
-            currentWeatherResponse?.let { weatherResponse ->
-                Log.i("DataInfo: ", weatherResponse.toString())
-                binding.apply {
-                    textViewLocalTime.text = "Local Time: \n${weatherResponse.location.localtime}"
-                    textViewCity.text = "Location: \n${weatherResponse.request.query}"
-                    textObservation.text =
-                        "Observation Time: \n${weatherResponse.currentWeatherEntry.observationTime}"
-                    textFeelsLike.text =
-                        "Feels Like: \n${weatherResponse.currentWeatherEntry.feelslike}° C"
-
-                    textTemperature.text =
-                        "Temperature: \n${weatherResponse.currentWeatherEntry.temperature} °C"
-                    weatherResponse.currentWeatherEntry.weatherIcons.firstOrNull()?.let { iconUrl ->
-                        Glide.with(requireContext())
-                            .load(iconUrl)
-                            .into(climateIcon)
-                    }
+                textTemperature.text =
+                    "Temperature: \n${weatherResponse.currentWeatherEntry.temperature} °C"
+                weatherResponse.currentWeatherEntry.weatherIcons.firstOrNull()?.let { iconUrl ->
+                    Glide.with(requireContext())
+                        .load(iconUrl)
+                        .into(climateIcon)
                 }
             }
         }
-
-        GlobalScope.launch(Dispatchers.Main) {
-            weatherNetworkDataSource.fetchCurrentWeather(args.city)
-        }
     }
-
 }
